@@ -7,7 +7,10 @@ import { CirclePlus } from "lucide-react";
 export default function NewPostButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handlePublish = (image: File | null, description: string) => {};
+  const handlePublish = (image: File | null, description: string) => {
+    console.log(image);
+    console.log(description);
+  };
 
   return (
     <div>

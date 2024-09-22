@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { LucideRss, MoreHorizontal, Rss, Send, Share } from "lucide-react";
+import { LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 
 interface User {
