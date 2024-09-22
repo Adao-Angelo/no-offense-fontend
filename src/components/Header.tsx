@@ -2,7 +2,7 @@ import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Avatar } from "./ui/avatar";
 import { ToggleTheme } from "./ui/toggleTheme";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { ChevronDown, CirclePlus, LogOut } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +14,7 @@ import NewPostButton from "./newPostButton";
 
 export default async function Header() {
   return (
-    <header className="flex border-b-[1px] items-center justify-between border-gray-400 px-16 ">
+    <header className="flex fixed w-[100%] bg-background z-50 border-b-[1px] items-center justify-between border-gray-400 px-16 ">
       <div className="flex gap-4 p-2 items-center">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
