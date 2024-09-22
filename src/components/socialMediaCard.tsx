@@ -115,6 +115,12 @@ export default function PublicationCard({
         </DropdownMenu>
       </CardHeader>
       <CardContent className="p-0">
+        <p className="p-4 text-[14px] text-gray-500">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat
+          facilis necessitatibus inventore! Ex fuga libero mollitia, assumenda
+          quae illo tempora quibusdam? Nobis fugiat ad esse laborum expedita
+          officia ipsam sequi.
+        </p>
         <img src={image} alt="Publication" className="w-full h-auto" />
         <ScrollArea className="h-60 w-full p-4">
           {comments.map((comment, index) => (

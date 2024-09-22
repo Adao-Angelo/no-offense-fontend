@@ -35,22 +35,22 @@ export default function Page() {
       />
       <PublicationCard
         user={user}
-        image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"
+        image="https://automotivoshopping.com.br/wp-content/uploads/2020/10/maxresdefault-1-768x432.jpg"
         comments={comments}
       />
       <PublicationCard
         user={user}
-        image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"
+        image="https://assegurou.com.br/blog/wp-content/uploads/2024/03/Bugatti-La-Voiture-Noire-1024x577.jpg"
         comments={comments}
       />
       <PublicationCard
         user={user}
-        image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"
+        image="https://www.razaoautomovel.com/wp-content/uploads/2023/11/citroen_e-c3_max-925x520.webp"
         comments={comments}
       />
       <PublicationCard
         user={user}
-        image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"
+        image="https://img.odcdn.com.br/wp-content/uploads/2023/11/Mustang-GT2024.jpg"
         comments={comments}
       />
     </div>

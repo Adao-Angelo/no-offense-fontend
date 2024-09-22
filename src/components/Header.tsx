@@ -17,7 +17,10 @@ export default async function Header() {
     <header className="flex fixed w-[100%] bg-background z-50 border-b-[1px] items-center justify-between border-gray-400 px-16 ">
       <div className="flex gap-4 p-2 items-center">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage
+            src="https://github.com/Antonio-Gabriel.png"
+            alt="@shadcn"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Popover>
@@ -35,14 +38,14 @@ export default async function Header() {
               <CardHeader
                 className="h-[150px] w-full bg-cover bg-center blur-md"
                 style={{
-                  backgroundImage: `url('https://github.com/shadcn.png')`,
+                  backgroundImage: `url('https://github.com/Antonio-Gabriel.png')`,
                 }}
               ></CardHeader>
 
               <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2">
                 <Avatar className="w-24 h-24 border-4 border-white rounded-full">
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src="https://github.com/Antonio-Gabriel.png"
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
