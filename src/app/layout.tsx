@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const fontHeading = Inter({
   subsets: ["latin"],
@@ -40,7 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          {children}
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </ThemeProvider>
       </body>
     </html>
