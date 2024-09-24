@@ -12,12 +12,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 
 interface PublicationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPublish: (image: File | null, description: string) => void;
+  onPublish: (
+    image: File | null,
+    description: string,
+    handleProgress: (progress: number) => void
+  ) => void;
 }
 
 export default function PublicationModal({
@@ -27,6 +32,7 @@ export default function PublicationModal({
 }: PublicationModalProps) {
   const [image, setImage] = useState<File | null>(null);
   const [description, setDescription] = useState("");
+  const [progress, setProgress] = useState<number>(0);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setImage(acceptedFiles[0]);
@@ -37,11 +43,14 @@ export default function PublicationModal({
     accept: { "image/*": [] },
   });
 
+  const handleProgress = (progress: number) => {
+    setProgress(progress);
+  };
+
   const handlePublish = () => {
-    onPublish(image, description);
-    setImage(null);
+    onPublish(image, description, handleProgress);
+    //setImage(null);
     setDescription("");
-    onClose();
   };
 
   return (
@@ -77,12 +86,18 @@ export default function PublicationModal({
               </div>
             )}
           </div>
+          <div className="flex justify-between items-center mt-4">
+            <p className="p-3 z-10">{progress}%</p>
+            <Progress value={progress} className="w-[80%]" />
+          </div>
+
           <Textarea
             placeholder="Write a description for your publication..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
           />
+
           <Button onClick={handlePublish}>Publish</Button>
         </div>
       </DialogContent>

@@ -40,8 +40,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          <EdgeStoreProvider>
+            <Header />
+            {children}
+          </EdgeStoreProvider>
         </ThemeProvider>
       </body>
     </html>

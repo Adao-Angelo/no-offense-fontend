@@ -1,15 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PublicationModal from "@/components/publicationModal";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export default function NewPostButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handlePublish = (image: File | null, description: string) => {
-    console.log(image);
-    console.log(description);
+  const { edgestore } = useEdgeStore();
+
+  const handlePublish = async (
+    file: File | null,
+    description: string,
+    handleProgress: (progress: number) => void
+  ) => {
+    if (file) {
+      const res = await edgestore.publicFiles.upload({
+        file,
+        onProgressChange: (progress) => {
+          handleProgress(Number(progress));
+        },
+      });
+      console.log(res);
+    }
   };
 
   return (
