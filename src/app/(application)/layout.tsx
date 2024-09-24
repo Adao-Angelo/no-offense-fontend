@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "This project consists of a web application designed to identify and censor offensive words or phrases in comments on publications.",
 };
 
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

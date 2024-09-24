@@ -4,6 +4,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import { cn } from "@/lib/utils";
+import { Toast } from "@radix-ui/react-toast";
+import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontHeading = Inter({
   subsets: ["latin"],
@@ -40,6 +43,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -90,8 +90,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
@@ -139,6 +137,14 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">;
 
+// Função para tocar som de notificação
+function playNotificationSound() {
+  const audio = new Audio("/notify.mp3"); // Certifique-se de que o caminho está correto
+  audio.play().catch((error) => {
+    console.error("Erro ao reproduzir o som: ", error);
+  });
+}
+
 function toast({ ...props }: Toast) {
   const id = genId();
 
@@ -147,6 +153,7 @@ function toast({ ...props }: Toast) {
       type: "UPDATE_TOAST",
       toast: { ...props, id },
     });
+
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
 
   dispatch({
@@ -160,6 +167,9 @@ function toast({ ...props }: Toast) {
       },
     },
   });
+
+  // Tocar som de notificação quando o toast for adicionado
+  playNotificationSound();
 
   return {
     id: id,

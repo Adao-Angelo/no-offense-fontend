@@ -7,23 +7,14 @@ export const metadata: Metadata = {
     "This project consists of a web application designed to identify and censor offensive words or phrases in comments on publications.",
 };
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
