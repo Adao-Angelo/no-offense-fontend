@@ -115,7 +115,7 @@ export default function PublicationCard({
         </DropdownMenu>
       </CardHeader>
       <CardContent className="p-0">
-        <p className="p-4 text-[14px] text-gray-500">
+        <p className="p-4 text-[14px]">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat
           facilis necessitatibus inventore! Ex fuga libero mollitia, assumenda
           quae illo tempora quibusdam? Nobis fugiat ad esse laborum expedita

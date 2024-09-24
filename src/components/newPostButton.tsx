@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PublicationModal from "@/components/publicationModal";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
+import { useToast } from "@/hooks/use-toast";
 
 export default function NewPostButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +29,12 @@ export default function NewPostButton() {
 
   return (
     <div>
-      <Button className="flex gap-1" onClick={() => setIsModalOpen(true)}>
+      <Button
+        className="flex gap-1"
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+      >
         <CirclePlus />
         <p>News post</p>
       </Button>
