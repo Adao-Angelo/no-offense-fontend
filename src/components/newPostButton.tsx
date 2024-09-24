@@ -4,7 +4,6 @@ import PublicationModal from "@/components/publicationModal";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
-import { useToast } from "@/hooks/use-toast";
 
 export default function NewPostButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +24,7 @@ export default function NewPostButton() {
       });
       console.log(res);
     }
+    console.log(description);
   };
 
   return (

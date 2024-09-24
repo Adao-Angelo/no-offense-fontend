@@ -1,4 +1,3 @@
-import NotifyAudio from "@/components/notifyAudio";
 import PublicationCard from "@/components/socialMediaCard";
 
 const user = {
@@ -54,7 +53,6 @@ export default function Page() {
         image="https://img.odcdn.com.br/wp-content/uploads/2023/11/Mustang-GT2024.jpg"
         comments={comments}
       />
-      <NotifyAudio></NotifyAudio>
     </div>
   );
 }
