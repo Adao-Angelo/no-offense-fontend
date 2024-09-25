@@ -16,14 +16,14 @@ export default async function Header() {
   return (
     <header className="flex fixed w-[100%] bg-background z-50 border-b-[1px] items-center justify-between border-gray-400 px-16 ">
       <div className="flex gap-4 p-2 items-center">
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/Antonio-Gabriel.png"
-            alt="@shadcn"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
         <Popover>
+          <Avatar>
+            <AvatarImage
+              src="https://github.com/Antonio-Gabriel.png"
+              alt="@shadcn"
+            />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
           <PopoverTrigger asChild>
             <Button
               className="flex items-center gap-1 text-[14px]"
