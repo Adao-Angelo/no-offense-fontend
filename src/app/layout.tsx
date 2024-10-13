@@ -36,6 +36,7 @@ export default function RootLayout({
       <body
         className={cn("antialiased", fontHeading.variable, fontBody.variable)}
       >
+        <header>.</header>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
