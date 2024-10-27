@@ -20,9 +20,9 @@ export default async function Header() {
           <Avatar>
             <AvatarImage
               src="https://github.com/Antonio-Gabriel.png"
-              alt="@shadcn"
+              alt="@antonio"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>AG</AvatarFallback>
           </Avatar>
           <PopoverTrigger asChild>
             <Button
