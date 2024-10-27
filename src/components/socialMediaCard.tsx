@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 interface User {
   name: string;
@@ -38,6 +41,7 @@ interface PublicationCardProps {
   user: User;
   image: string;
   comments: Comment[];
+  className?: string;
 }
 
 function UserAvatar({ user }: { user: User }) {
@@ -74,6 +78,7 @@ export default function PublicationCard({
   user,
   image,
   comments: initialComments,
+  className,
 }: PublicationCardProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
@@ -85,8 +90,15 @@ export default function PublicationCard({
     }
   };
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
-    <Card className="w-full max-w-md mx-auto my-4">
+    <Card
+      className={`w-full max-w-md mx-auto my-4 ${className}`}
+      data-aos="zoom-in-up"
+    >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-4">
           <UserAvatar user={user} />

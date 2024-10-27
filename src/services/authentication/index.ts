@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import axios from "axios";
+import { UserType } from "@/types";
 
 const baseUrl = process.env.BASE_URL;
 export async function authentication({
@@ -28,15 +29,7 @@ export async function authentication({
   }
 }
 
-export async function register({
-  name,
-  email,
-  password,
-}: {
-  name: string;
-  email: string;
-  password: string;
-}) {
+export async function registerUser({ name, email, password }: UserType) {
   try {
     const response = await axios.post(`${baseUrl}/users`, {
       name,

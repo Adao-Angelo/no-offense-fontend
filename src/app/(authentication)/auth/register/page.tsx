@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import {
   Card,
@@ -16,14 +15,16 @@ import {
 } from "@/components/ui/card";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { LoginType } from "@/types";
-import { LoginSchema } from "@/lib/validators";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { authentication, registerUser } from "@/services/authentication";
+import { UserType } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import { UserSchema } from "@/lib/validators";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerUser } from "@/services/authentication";
+import { useForm } from "react-hook-form";
 
-export default function AnimatedLogin() {
+export default function AnimatedRegister() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -50,24 +51,24 @@ export default function AnimatedLogin() {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginType>({
-    resolver: yupResolver(LoginSchema),
+  } = useForm<UserType>({
+    resolver: yupResolver(UserSchema),
   });
 
-  const handleLogin = async (data: LoginType) => {
+  const handleRegister = async (data: UserType) => {
     setIsLoading(true);
 
     try {
-      const response = await authentication(data);
+      const response = await registerUser(data);
       toast({
-        title: "Login Successful",
-        description: "Welcome back! You have logged in successfully.",
+        title: "Registration Successful",
+        description: response.message,
       });
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error During Login",
-        description: "Failed to log in. Please check your credentials.",
+        title: "Error During Registration",
+        description: "Failed to create user account.",
       });
     } finally {
       setIsLoading(false);
@@ -88,7 +89,7 @@ export default function AnimatedLogin() {
                 className="text-2xl font-bold text-center"
                 variants={itemVariants}
               >
-                Welcome Back!
+                Create Account
               </motion.h2>
             </CardTitle>
             <CardDescription>
@@ -96,16 +97,28 @@ export default function AnimatedLogin() {
                 className="text-center text-gray-600"
                 variants={itemVariants}
               >
-                Sign in to continue
+                Sign up to get started
               </motion.p>
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(handleLogin)}>
+            <form onSubmit={handleSubmit(handleRegister)}>
               <motion.div
                 className="grid w-full items-center gap-4"
                 variants={itemVariants}
               >
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="Your username"
+                    {...register("name", { required: true })}
+                  />
+                  {errors.name && (
+                    <p className="text-red-500">{errors.name.message}</p>
+                  )}
+                </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -148,6 +161,37 @@ export default function AnimatedLogin() {
                     </Button>
                   </div>
                 </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="confirm-password">Confirm Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="confirm-password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm your password"
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOffIcon className="h-4 w-4 text-gray-500" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4 text-gray-500" />
+                      )}
+                      <span className="sr-only">
+                        {showConfirmPassword
+                          ? "Hide confirm password"
+                          : "Show confirm password"}
+                      </span>
+                    </Button>
+                  </div>
+                </div>
               </motion.div>
               <motion.div className="mt-6 w-full" variants={itemVariants}>
                 <Button className="w-full" type="submit" disabled={isLoading}>
@@ -157,7 +201,7 @@ export default function AnimatedLogin() {
                       Processing
                     </>
                   ) : (
-                    "Sign In"
+                    "Sign Up"
                   )}
                 </Button>
               </motion.div>
@@ -168,12 +212,9 @@ export default function AnimatedLogin() {
               className="mt-4 text-sm text-center text-gray-600"
               variants={itemVariants}
             >
-              Don't have an account?{" "}
-              <Link
-                href="/auth/register"
-                className="text-gray-900 hover:underline"
-              >
-                Sign up
+              Already have an account?{" "}
+              <Link href="/auth" className="text-gray-900 hover:underline">
+                Sign in
               </Link>
             </motion.p>
           </CardFooter>
