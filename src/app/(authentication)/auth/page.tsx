@@ -19,8 +19,9 @@ import Link from "next/link";
 import { LoginType } from "@/types";
 import { LoginSchema } from "@/lib/validators";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authentication, registerUser } from "@/services/authentication";
+import { authentication } from "@/services/authentication";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function AnimatedLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -45,6 +46,8 @@ export default function AnimatedLogin() {
     visible: { opacity: 1, y: 0 },
   };
 
+  const router = useRouter();
+
   const {
     register,
     reset,
@@ -63,6 +66,7 @@ export default function AnimatedLogin() {
         title: "Login Successful",
         description: "Welcome back! You have logged in successfully.",
       });
+      router.push("/");
     } catch (error) {
       toast({
         variant: "destructive",

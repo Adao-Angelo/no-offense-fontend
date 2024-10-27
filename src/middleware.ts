@@ -3,11 +3,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest) {
   const cookie = cookies();
   const token = cookie.get("token");
 
-  const protectedRoutes = ["/", "/users"];
+  const protectedRoutes = ["/"];
 
   const isProtectedRoute = protectedRoutes.includes(req.nextUrl.pathname);
   if (isProtectedRoute && !token) {
@@ -17,5 +17,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/*", "/users/*"],
+  matcher: ["/:path*"],
 };
