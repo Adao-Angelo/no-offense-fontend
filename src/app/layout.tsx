@@ -4,8 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import { cn } from "@/lib/utils";
-import { Toast } from "@radix-ui/react-toast";
-import { ToastProvider } from "@/components/ui/toast";
+
 import { Toaster } from "@/components/ui/toaster";
 
 const fontHeading = Inter({
@@ -37,12 +36,7 @@ export default function RootLayout({
         className={cn("antialiased", fontHeading.variable, fontBody.variable)}
       >
         <div></div>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Toaster />
         </ThemeProvider>

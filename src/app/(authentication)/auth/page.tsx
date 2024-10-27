@@ -66,6 +66,8 @@ export default function AnimatedLogin() {
         title: "Login Successful",
         description: "Welcome back! You have logged in successfully.",
       });
+
+      setIsLoading(false);
       router.push("/");
     } catch (error) {
       toast({

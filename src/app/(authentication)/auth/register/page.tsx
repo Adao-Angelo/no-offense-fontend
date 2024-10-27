@@ -68,7 +68,7 @@ export default function AnimatedRegister() {
       toast({
         variant: "destructive",
         title: "Error During Registration",
-        description: "Failed to create user account.",
+        description: `Failed to create user account. ${error}`,
       });
     } finally {
       setIsLoading(false);

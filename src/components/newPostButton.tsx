@@ -36,7 +36,7 @@ export default function NewPostButton() {
         }}
       >
         <CirclePlus />
-        <p>News post</p>
+        <p className="hidden sm:block">New post</p>{" "}
       </Button>
       <PublicationModal
         isOpen={isModalOpen}

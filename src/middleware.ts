@@ -13,6 +13,11 @@ export default function middleware(req: NextRequest) {
   if (isProtectedRoute && !token) {
     return NextResponse.redirect(new URL("/auth", req.url));
   }
+
+  if (token && req.nextUrl.pathname === "/auth") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
   return NextResponse.next();
 }
 

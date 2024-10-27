@@ -18,10 +18,23 @@ export async function authentication({
       password,
     });
 
-    const { token, user } = response.data;
+    const {
+      token,
+      user,
+    }: {
+      token: string;
+      user: {
+        name: string;
+        email: string;
+        password: string;
+        avatar?: string;
+      };
+    } = response.data;
     const Cookies = cookies();
 
+    Cookies.set("userAuthenticated", JSON.stringify(user));
     Cookies.set("token", token);
+
     return user;
   } catch (error) {
     console.error("Error on authentication: ", error);
