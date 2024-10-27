@@ -1,7 +1,8 @@
+import { getCookie } from "@/utils";
 import axios from "axios";
 
 const BaseUrl = process.env.BASE_URL;
-const APIKey = process.env.API_KEY;
+const APIKey = getCookie("token");
 
 const http = axios.create({
   baseURL: BaseUrl,
