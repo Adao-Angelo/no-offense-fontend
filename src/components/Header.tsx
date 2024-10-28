@@ -9,7 +9,6 @@ export default async function Header() {
       <Profile></Profile>
 
       <div className="flex gap-4">
-        <Input type="text" placeholder="Users names" />
         <NewPostButton />
         <div>
           <ToggleTheme />
