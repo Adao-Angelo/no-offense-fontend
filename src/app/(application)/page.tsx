@@ -27,7 +27,7 @@ const comments = [
 
 export default function Page() {
   return (
-    <div className="py-20">
+    <div className="py-20 px-2">
       <PublicationCard
         user={user}
         image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"

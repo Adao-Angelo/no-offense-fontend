@@ -18,9 +18,8 @@ export type CommentType = DatabaseColumnType & {
 };
 
 export type PublicationType = DatabaseColumnType & {
-  user: UserType;
-  image: string;
-  comments: CommentType[];
-  likes: number;
-  shares: number;
+  userId: string;
+  imageUrl: string;
+  imageDescription?: string;
+  text: string;
 };

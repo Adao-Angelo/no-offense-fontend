@@ -1,7 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { ChevronDown, Divide, LogOut } from "lucide-react";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Avatar } from "./ui/avatar";
 
@@ -35,7 +33,7 @@ export default function Profile() {
     <div className="flex items-center gap-2">
       <Avatar>
         <AvatarImage
-          src={userAuth?.avatar || "https://github.com/Adao-Angelo.png"}
+          src={userAuth?.avatar || "https://github.com/Antonio-Gabriel.png"}
         ></AvatarImage>
         <AvatarFallback>{getInitials(userAuth?.name ?? "User")}</AvatarFallback>
       </Avatar>
