@@ -19,3 +19,10 @@ export const LoginSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
+
+export const PublicationSchema = Yup.object({
+  userId: Yup.string().required("user id is required"),
+  imageUrl: Yup.string().required("imageUrl is required"),
+  imageDescription: Yup.string(),
+  text: Yup.string().required("text is required"),
+});

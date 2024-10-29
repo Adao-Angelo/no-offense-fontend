@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types";
 import { getInitials } from "initials-extractor";
+import { UserAvatar } from "./socialMediaCard";
+import { useWatch } from "react-hook-form";
 
 export default function Profile() {
   const [userAuth, setUserAuth] = useState<UserType>();
@@ -27,16 +29,18 @@ export default function Profile() {
       const userParse: UserType = JSON.parse(User);
       setUserAuth(userParse);
     }
-  }, [userAuth]);
+  }, []);
+
+  const user = {
+    name: userAuth?.name || "Anonymous",
+    email: userAuth?.email || "",
+    avatar: userAuth?.avatar || "",
+  };
 
   return (
     <div className="flex items-center gap-2">
-      <Avatar>
-        <AvatarImage
-          src={userAuth?.avatar || "https://github.com/Antonio-Gabriel.png"}
-        ></AvatarImage>
-        <AvatarFallback>{getInitials(userAuth?.name ?? "User")}</AvatarFallback>
-      </Avatar>
+      <UserAvatar user={user} />
+
       <div>
         <h2 className="text-[14px] font-bold">{userAuth?.name}</h2>
         <p className="text-[10px]">{userAuth?.email}</p>

@@ -44,7 +44,7 @@ interface PublicationCardProps {
   className?: string;
 }
 
-function UserAvatar({ user }: { user: User }) {
+export function UserAvatar({ user }: { user: User }) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,12 +23,14 @@ interface PublicationModalProps {
     description: string,
     handleProgress: (progress: number) => void
   ) => void;
+  isLoading: boolean;
 }
 
 export default function PublicationModal({
   isOpen,
   onClose,
   onPublish,
+  isLoading,
 }: PublicationModalProps) {
   const [image, setImage] = useState<File | null>(null);
   const [description, setDescription] = useState("");
@@ -47,9 +49,9 @@ export default function PublicationModal({
     setProgress(progress);
   };
 
-  const handlePublish = () => {
-    onPublish(image, description, handleProgress);
-    //setImage(null);
+  const handlePublish = async () => {
+    await onPublish(image, description, handleProgress);
+
     setDescription("");
   };
 
@@ -95,10 +97,19 @@ export default function PublicationModal({
             placeholder="Write a description for your publication..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            rows={4}
+            rows={2}
           />
 
-          <Button onClick={handlePublish}>Publish</Button>
+          <Button onClick={handlePublish}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing
+              </>
+            ) : (
+              "Publish"
+            )}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

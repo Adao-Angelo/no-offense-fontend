@@ -1,30 +1,74 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import PublicationModal from "@/components/publicationModal";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
+import { PublicationType, UserType } from "@/types";
+import { authentication, PublicationService } from "@/services";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function NewPostButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { edgestore } = useEdgeStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const [userAuth, setUserAuth] = useState<UserType>();
+  const router = useRouter();
+
+  useEffect(() => {
+    const User = Cookies.get("userAuthenticated");
+    if (!User) {
+      router.push("/auth");
+    } else {
+      const userParse: UserType = JSON.parse(User);
+      setUserAuth(userParse);
+    }
+  }, []);
 
   const handlePublish = async (
     file: File | null,
     description: string,
     handleProgress: (progress: number) => void
   ) => {
-    if (file) {
-      const res = await edgestore.publicFiles.upload({
-        file,
-        onProgressChange: (progress) => {
-          handleProgress(Number(progress));
-        },
+    setIsLoading(true);
+    try {
+      if (file) {
+        const res = await edgestore.publicFiles.upload({
+          file,
+          onProgressChange: (progress) => {
+            handleProgress(Number(progress));
+          },
+        });
+
+        const publication: PublicationType = {
+          userId: userAuth?.id || "",
+          imageUrl: res.url,
+          text: description,
+        };
+
+        await PublicationService.createPublication(publication);
+
+        setIsLoading(false);
+        setIsModalOpen(false);
+
+        toast({
+          title: "Do you make a post",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error During Post",
+        description: "Failed to post. Please try again.",
       });
-      console.log(res);
+      setIsLoading(false);
     }
-    console.log(description);
   };
 
   return (
@@ -42,6 +86,7 @@ export default function NewPostButton() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onPublish={handlePublish}
+        isLoading={isLoading}
       />
     </div>
   );
