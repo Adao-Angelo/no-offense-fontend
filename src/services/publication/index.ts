@@ -1,9 +1,6 @@
 import { http } from "@/common/https";
 
 import { PublicationType } from "@/types";
-import axios from "axios";
-
-const baseUrl = process.env.BASE_URL;
 
 export namespace PublicationService {
   export async function createPublication(data: PublicationType) {

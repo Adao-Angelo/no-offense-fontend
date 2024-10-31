@@ -1,10 +1,11 @@
 "use server";
 
-import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 import axios from "axios";
 
 const BaseUrl = process.env.BASE_URL;
-const APIKey = Cookies.get("token");
+const cookie = cookies();
+const APIKey = cookie.get("token");
 
 const http = axios.create({
   baseURL: BaseUrl,

@@ -18,8 +18,8 @@ export type CommentType = DatabaseColumnType & {
 };
 
 export type PublicationType = DatabaseColumnType & {
-  userId: string;
-  imageUrl: string;
+  userId?: string;
+  imageUrl?: string;
   imageDescription?: string;
   text: string;
 };
