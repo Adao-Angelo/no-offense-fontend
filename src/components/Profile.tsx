@@ -31,7 +31,6 @@ export default function Profile() {
     <div>
       <Link href="/profile" className="flex items-center gap-2">
         <UserAvatar user={user} />
-
         <div>
           <h2 className="text-[14px] font-bold">{userAuth?.name}</h2>
           <p className="text-[10px]">{userAuth?.email}</p>

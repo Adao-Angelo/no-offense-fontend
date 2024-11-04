@@ -48,7 +48,6 @@ export default function AnimatedRegister() {
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<UserType>({
