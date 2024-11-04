@@ -1,6 +1,10 @@
 "use client";
-import { useState } from "react";
-import { useEffect } from "react";
+
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { UserType } from "@/types";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +45,8 @@ interface PublicationCardProps {
   user: User;
   image: string;
   comments: Comment[];
-  className?: string;
+  date: string;
+  text: string;
 }
 
 export function UserAvatar({ user }: { user: User }) {
@@ -78,10 +83,13 @@ export default function PublicationCard({
   user,
   image,
   comments: initialComments,
-  className,
+  date,
+  text,
 }: PublicationCardProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
+  const [userAuth, setUserAuth] = useState<UserType>();
+  const [publications, setPublications] = useState();
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -94,17 +102,32 @@ export default function PublicationCard({
     AOS.init();
   }, []);
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const User = Cookies.get("userAuthenticated");
+    if (!User) {
+      router.push("/auth");
+    } else {
+      const userParse: UserType = JSON.parse(User);
+      setUserAuth(userParse);
+    }
+  }, []);
+
+  const userAuthenticate = {
+    name: userAuth?.name || "Anonymous",
+    email: userAuth?.email || "",
+    avatar: userAuth?.avatar || "",
+  };
+
   return (
-    <Card
-      className={`w-full max-w-md mx-auto my-4 ${className}`}
-      data-aos="zoom-in-up"
-    >
+    <Card className={`w-full max-w-md mx-auto my-4`} data-aos="zoom-in-up">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-4">
           <UserAvatar user={user} />
           <div>
             <p className="font-semibold">{user.name}</p>
-            <p className="text-gray-500 text-[10px]">1h</p>
+            <p className="text-gray-500 text-[10px]">{date}</p>
           </div>
         </div>
         <DropdownMenu>
@@ -127,13 +150,12 @@ export default function PublicationCard({
         </DropdownMenu>
       </CardHeader>
       <CardContent className="p-0">
-        <p className="p-4 text-[14px]">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat
-          facilis necessitatibus inventore! Ex fuga libero mollitia, assumenda
-          quae illo tempora quibusdam? Nobis fugiat ad esse laborum expedita
-          officia ipsam sequi.
-        </p>
-        <img src={image} alt="Publication" className="w-full h-auto" />
+        <p className="p-4 text-[14px]">{text}</p>
+        <img
+          src={image}
+          alt="Publication Image"
+          className="w-full h-auto p-4"
+        />
         <ScrollArea className="h-60 w-full p-4">
           {comments.map((comment, index) => (
             <div key={index} className="flex space-x-2 mb-2">
@@ -154,8 +176,11 @@ export default function PublicationCard({
       </CardContent>
       <CardFooter className="flex items-end space-x-2">
         <Avatar className="h-8 w-8">
-          <AvatarImage src={user.avatar} alt={user.name} />
-          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+          <AvatarImage
+            src={userAuthenticate.avatar}
+            alt={userAuthenticate.name}
+          />
+          <AvatarFallback>{userAuthenticate.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="flex-1 flex items-end ">
           <Textarea

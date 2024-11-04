@@ -1,7 +1,7 @@
 import { ToggleTheme } from "./ui/toggleTheme";
-import { Input } from "./ui/input";
-import NewPostButton from "./newPostButton";
 import Profile from "./Profile";
+import { CirclePlus } from "lucide-react";
+import Link from "next/link";
 
 export default async function Header() {
   return (
@@ -9,7 +9,15 @@ export default async function Header() {
       <Profile></Profile>
 
       <div className="flex gap-4">
-        <NewPostButton />
+        <div className="block">
+          <Link
+            className="flex gap-1 items-center justify-center"
+            href="/newPost"
+          >
+            <CirclePlus />
+            <p className="hidden sm:block">New Publication</p>{" "}
+          </Link>
+        </div>
         <div>
           <ToggleTheme />
         </div>

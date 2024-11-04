@@ -1,4 +1,12 @@
+"use client";
+
 import PublicationCard from "@/components/socialMediaCard";
+import { useToast } from "@/hooks/use-toast";
+import { PublicationService } from "@/services";
+import { PublicationType, ResponsePublicationType } from "@/types";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { string } from "zod";
 
 const user = {
   name: "John Doe",
@@ -26,33 +34,56 @@ const comments = [
 ];
 
 export default function Page() {
+  const [publications, setPublications] = useState<ResponsePublicationType[]>();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const getComments = async (publicationId: string) => {
+    return comments;
+  };
+  useEffect(() => {
+    const getPublications = async () => {
+      setIsLoading(true);
+
+      try {
+        const response: ResponsePublicationType[] =
+          await PublicationService.fetchPublications();
+        setIsLoading(false);
+        setPublications(response);
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "Error During Post",
+          description: "Failed to post. Please try again.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getPublications();
+  }, []);
   return (
     <div className="py-20 px-2">
-      <PublicationCard
-        user={user}
-        image="https://nxboats.com.br/wp-content/uploads/2023/11/Lamborghini.jpg"
-        comments={comments}
-      />
-      <PublicationCard
-        user={user}
-        image="https://automotivoshopping.com.br/wp-content/uploads/2020/10/maxresdefault-1-768x432.jpg"
-        comments={comments}
-      />
-      <PublicationCard
-        user={user}
-        image="https://assegurou.com.br/blog/wp-content/uploads/2024/03/Bugatti-La-Voiture-Noire-1024x577.jpg"
-        comments={comments}
-      />
-      <PublicationCard
-        user={user}
-        image="https://www.razaoautomovel.com/wp-content/uploads/2023/11/citroen_e-c3_max-925x520.webp"
-        comments={comments}
-      />
-      <PublicationCard
-        user={user}
-        image="https://img.odcdn.com.br/wp-content/uploads/2023/11/Mustang-GT2024.jpg"
-        comments={comments}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Loading...
+        </div>
+      ) : (
+        publications?.map((publication) => (
+          <div>
+            <PublicationCard
+              key={publication.publication.id}
+              user={publication.user}
+              image={`${publication.publication.imageUrl}`}
+              comments={comments}
+              date={`${publication.publication.createdAt}`}
+              text={publication.publication.text}
+            />
+          </div>
+        ))
+      )}
     </div>
   );
 }

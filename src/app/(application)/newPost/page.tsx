@@ -2,39 +2,27 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+
+import Image from "next/image";
 import { Loader2, Upload } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { PublicationService } from "@/services";
+import { PublicationType } from "@/types";
+import { useToast } from "@/hooks/use-toast";
+import { useEdgeStore } from "@/lib/edgestore";
+
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import Image from "next/image";
 
-interface PublicationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onPublish: (
-    image: File | null,
-    description: string,
-    handleProgress: (progress: number) => void
-  ) => void;
-  isLoading: boolean;
-}
-
-export default function PublicationModal({
-  isOpen,
-  onClose,
-  onPublish,
-  isLoading,
-}: PublicationModalProps) {
+export default function NewPost() {
   const [image, setImage] = useState<File | null>(null);
   const [description, setDescription] = useState("");
   const [progress, setProgress] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const { edgestore } = useEdgeStore();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setImage(acceptedFiles[0]);
@@ -49,20 +37,62 @@ export default function PublicationModal({
     setProgress(progress);
   };
 
-  const handlePublish = async () => {
-    await onPublish(image, description, handleProgress);
+  const handlePublish = async (file: File | null) => {
+    setIsLoading(true);
+    try {
+      if (file) {
+        const res = await edgestore.publicFiles.upload({
+          file,
+          onProgressChange: (progress) => {
+            handleProgress(Number(progress));
+          },
+        });
 
-    setDescription("");
+        const publication: PublicationType = {
+          imageUrl: res.url,
+          text: description,
+        };
+
+        await PublicationService.createPublication(publication);
+
+        setIsLoading(false);
+
+        toast({
+          title: "Do you make a post",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+        });
+      } else {
+        const publication: PublicationType = {
+          imageUrl: "",
+          text: description,
+        };
+
+        await PublicationService.createPublication(publication);
+
+        toast({
+          title: "Do you make a publication",
+          description: "publication created",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error During Post",
+        description: "Failed to post. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="flex justify-between items-center">
+    <div className="flex justify-center items-center pt-16">
+      <CardContent className="sm:max-w-[425px] ">
+        <CardHeader>
+          <CardTitle className="flex justify-between items-center">
             Create Publication
-          </DialogTitle>
-        </DialogHeader>
+          </CardTitle>
+        </CardHeader>
         <div className="grid gap-4 py-4">
           <div
             {...getRootProps()}
@@ -100,7 +130,11 @@ export default function PublicationModal({
             rows={2}
           />
 
-          <Button onClick={handlePublish}>
+          <Button
+            onClick={() => {
+              handlePublish(image);
+            }}
+          >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -111,7 +145,7 @@ export default function PublicationModal({
             )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </div>
   );
 }

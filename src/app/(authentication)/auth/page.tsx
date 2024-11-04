@@ -50,7 +50,6 @@ export default function AnimatedLogin() {
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>({

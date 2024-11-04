@@ -23,3 +23,12 @@ export type PublicationType = DatabaseColumnType & {
   imageDescription?: string;
   text: string;
 };
+
+export type ResponsePublicationType = {
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  publication: PublicationType;
+};

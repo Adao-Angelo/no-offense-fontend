@@ -1,5 +1,4 @@
-import { http } from "@/common/https";
-
+import { http } from "@/common/http";
 import { PublicationType } from "@/types";
 
 export namespace PublicationService {
