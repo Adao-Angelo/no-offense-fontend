@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import axios from "axios";
 import { UserType } from "@/types";
 
-// const baseUrl = process.env.BASE_URL ;
+// const baseUrl = process.env.BASE_URL;
 
 const baseUrl = "http://localhost:2000";
 

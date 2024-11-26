@@ -36,6 +36,7 @@ const comments = [
 export default function Page() {
   const [publications, setPublications] = useState<ResponsePublicationType[]>();
   const [isLoading, setIsLoading] = useState(false);
+
   const { toast } = useToast();
 
   const getComments = async (publicationId: string) => {
