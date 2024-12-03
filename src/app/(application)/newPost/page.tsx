@@ -1,20 +1,19 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-import Image from "next/image";
-import { Loader2, Upload } from "lucide-react";
-import { PublicationService } from "@/services";
-import { PublicationType } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { useEdgeStore } from "@/lib/edgestore";
+import { PublicationService } from "@/services";
+import { PublicationType } from "@/types";
+import { Loader2, Upload } from "lucide-react";
+import Image from "next/image";
 
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NewPost() {
   const [image, setImage] = useState<File | null>(null);
@@ -118,10 +117,7 @@ export default function NewPost() {
               </div>
             )}
           </div>
-          <div className="flex justify-between items-center mt-4">
-            <p className="p-3 z-10">{progress}%</p>
-            <Progress value={progress} className="w-[80%]" />
-          </div>
+          <div className="flex justify-between items-center mt-4"></div>
 
           <Textarea
             placeholder="Write a description for your publication..."

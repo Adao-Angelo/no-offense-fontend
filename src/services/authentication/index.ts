@@ -1,12 +1,10 @@
 "use server";
 
-import { cookies } from "next/headers";
-import axios from "axios";
 import { UserType } from "@/types";
+import axios from "axios";
+import { cookies } from "next/headers";
 
-// const baseUrl = process.env.BASE_URL;
-
-const baseUrl = "http://localhost:2000";
+const baseUrl = process.env.BASE_URL;
 
 export async function authentication({
   email,

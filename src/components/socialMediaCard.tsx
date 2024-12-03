@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
 import { UserType } from "@/types";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,21 +14,21 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
-import { Textarea } from "./ui/textarea";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 interface User {
   name: string;
@@ -121,7 +121,7 @@ export default function PublicationCard({
   };
 
   return (
-    <Card className={`w-full max-w-md mx-auto my-4`} data-aos="zoom-in-up">
+    <Card className={`w-full max-w-md mx-auto my-4`} data-aos="">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-4">
           <UserAvatar user={user} />

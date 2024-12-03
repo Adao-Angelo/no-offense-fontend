@@ -3,10 +3,9 @@
 import PublicationCard from "@/components/socialMediaCard";
 import { useToast } from "@/hooks/use-toast";
 import { PublicationService } from "@/services";
-import { PublicationType, ResponsePublicationType } from "@/types";
+import { ResponsePublicationType } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { string } from "zod";
 
 const user = {
   name: "John Doe",
@@ -75,12 +74,12 @@ export default function Page() {
         publications?.map((publication) => (
           <div>
             <PublicationCard
-              key={publication.publication.id}
+              key={publication.id}
               user={publication.user}
-              image={`${publication.publication.imageUrl}`}
+              image={`${publication.imageUrl}`}
               comments={comments}
-              date={`${publication.publication.createdAt}`}
-              text={publication.publication.text}
+              date={`${publication.createdAt}`}
+              text={publication.text}
             />
           </div>
         ))

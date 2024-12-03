@@ -24,11 +24,14 @@ export type PublicationType = DatabaseColumnType & {
   text: string;
 };
 
-export type ResponsePublicationType = {
+export type ResponsePublicationType = DatabaseColumnType & {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
-  publication: PublicationType;
+  userId?: string;
+  imageUrl?: string;
+  imageDescription?: string;
+  text: string;
 };

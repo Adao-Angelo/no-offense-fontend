@@ -4,16 +4,15 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
 import { PublicationService } from "@/services";
 import { ResponsePublicationType } from "@/types";
 import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
   const [publications, setPublications] = useState<ResponsePublicationType[]>();
@@ -23,7 +22,6 @@ export default function Profile() {
 
   const getPublications = async () => {
     setIsLoading(true);
-
     try {
       const response: ResponsePublicationType[] =
         await PublicationService.fetchPublications();
@@ -76,35 +74,36 @@ export default function Profile() {
           </div>
         ) : (
           publications?.map((publication) => (
-            <Card key={publication.publication.id}>
+            <Card key={publication.id}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{publication.user.name}</CardTitle>
-                  {loadingRemoving ? (
-                    <div className="flex justify-center items-center">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Loading...
-                    </div>
-                  ) : (
-                    <Button
-                      onClick={() => {
-                        deletePublication(publication.publication.id);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  )}
+
+                  <Button
+                    onClick={() => {
+                      deletePublication(publication.id);
+                    }}
+                  >
+                    {loadingRemoving ? (
+                      <div className="flex justify-center items-center">
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Loading...
+                      </div>
+                    ) : (
+                      <div>Remover</div>
+                    )}
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent>
                 <div>
                   <img
-                    src={`${publication.publication.imageUrl}`}
+                    src={`${publication.imageUrl}`}
                     alt="Image description."
                   />
                 </div>
                 <CardDescription>
-                  <p>{publication.publication.text}</p>
+                  <p>{publication.text}</p>
                 </CardDescription>
               </CardContent>
             </Card>

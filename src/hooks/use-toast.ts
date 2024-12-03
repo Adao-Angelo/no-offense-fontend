@@ -1,9 +1,7 @@
 "use client";
 
-// Inspired by react-hot-toast library
-import * as React from "react";
-
 import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
+import * as React from "react";
 
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
@@ -137,11 +135,10 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">;
 
-// Função para tocar som de notificação
 function playNotificationSound() {
-  const audio = new Audio("/notify.mp3"); // Certifique-se de que o caminho está correto
+  const audio = new Audio("/notify.mp3");
   audio.play().catch((error) => {
-    console.error("Erro ao reproduzir o som: ", error);
+    console.error("Error on player audio: ", error);
   });
 }
 
@@ -168,7 +165,6 @@ function toast({ ...props }: Toast) {
     },
   });
 
-  // Tocar som de notificação quando o toast for adicionado
   playNotificationSound();
 
   return {
@@ -198,4 +194,4 @@ function useToast() {
   };
 }
 
-export { useToast, toast };
+export { toast, useToast };
