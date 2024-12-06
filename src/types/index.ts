@@ -13,7 +13,17 @@ export type LoginType = {
 };
 
 export type CommentType = DatabaseColumnType & {
-  user: UserType;
+  userId?: UserType;
+  publicationId: string;
+  text: string;
+};
+
+export type CommentResponseType = DatabaseColumnType & {
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
   content: string;
 };
 

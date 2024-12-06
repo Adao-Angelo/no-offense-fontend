@@ -2,44 +2,21 @@
 
 import PublicationCard from "@/components/socialMediaCard";
 import { useToast } from "@/hooks/use-toast";
-import { PublicationService } from "@/services";
-import { ResponsePublicationType } from "@/types";
+import { CommentService, PublicationService } from "@/services";
+import { ResponsePublicationType, type CommentResponseType } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const user = {
-  name: "John Doe",
-  email: "john@example.com",
-  avatar: "https://github.com/Antonio-Gabriel.png",
-};
-
-const comments = [
-  {
-    user: {
-      name: "Alice",
-      email: "alice@example.com",
-      avatar: "https://github.com/Adao-Angelo.png",
-    },
-    content: "Great post!",
-  },
-  {
-    user: {
-      name: "Bob",
-      email: "bob@example.com",
-      avatar: "https://github.com/Adao-Angelo.png",
-    },
-    content: "I love this!",
-  },
-];
 
 export default function Page() {
   const [publications, setPublications] = useState<ResponsePublicationType[]>();
   const [isLoading, setIsLoading] = useState(false);
+  const [comments, setComments] = useState<CommentResponseType[]>([]);
 
   const { toast } = useToast();
 
   const getComments = async (publicationId: string) => {
-    return comments;
+    const data = await CommentService.fetchComments(publicationId);
+    setComments(data);
   };
   useEffect(() => {
     const getPublications = async () => {
@@ -74,6 +51,7 @@ export default function Page() {
         publications?.map((publication) => (
           <div>
             <PublicationCard
+              id={publication.id}
               key={publication.id}
               user={publication.user}
               image={`${publication.imageUrl}`}

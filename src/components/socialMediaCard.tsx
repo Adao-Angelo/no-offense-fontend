@@ -1,6 +1,6 @@
 "use client";
 
-import { UserType } from "@/types";
+import { UserType, type CommentType } from "@/types";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,9 +25,11 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
+import { CommentService } from "@/services";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
+import { Loader2, LucideRss, MoreHorizontal, Send, Share } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 
 interface User {
@@ -42,6 +44,7 @@ interface Comment {
 }
 
 interface PublicationCardProps {
+  id?: string;
   user: User;
   image: string;
   comments: Comment[];
@@ -80,6 +83,7 @@ export function UserAvatar({ user }: { user: User }) {
 }
 
 export default function PublicationCard({
+  id,
   user,
   image,
   comments: initialComments,
@@ -89,8 +93,8 @@ export default function PublicationCard({
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
   const [userAuth, setUserAuth] = useState<UserType>();
-  const [publications, setPublications] = useState();
-
+  const [isLoadingComment, setIsLoadingComment] = useState<boolean>(false);
+  const { toast } = useToast();
   const handleAddComment = () => {
     if (newComment.trim()) {
       setComments([...comments, { user, content: newComment.trim() }]);
@@ -98,8 +102,31 @@ export default function PublicationCard({
     }
   };
 
+  const addNewComment = async (newComment: CommentType) => {
+    try {
+    } catch {
+    } finally {
+    }
+  };
+
   useEffect(() => {
+    const getComments = async (publicationId: string) => {
+      setIsLoadingComment(true);
+      try {
+        const data = await CommentService.fetchComments(publicationId);
+        setComments(data);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error on list a comments ",
+          description: "Failed to list a comments of this publication.",
+        });
+      } finally {
+        setIsLoadingComment(false);
+      }
+    };
     AOS.init();
+    getComments(id as string);
   }, []);
 
   const router = useRouter();
@@ -157,21 +184,32 @@ export default function PublicationCard({
           className="w-full h-auto p-4"
         />
         <ScrollArea className="h-60 w-full p-4">
-          {comments.map((comment, index) => (
-            <div key={index} className="flex space-x-2 mb-2">
-              <Avatar className="h-6 w-6">
-                <AvatarImage
-                  src={comment.user.avatar}
-                  alt={comment.user.name}
-                />
-                <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1 bg-muted rounded-md p-2">
-                <p className="text-sm font-semibold">{comment.user.name}</p>
-                <p className="text-sm">{comment.content}</p>
-              </div>
+          {isLoadingComment ? (
+            <div className="flex justify-center items-center">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Loading...
             </div>
-          ))}
+          ) : (
+            <div>
+              {comments.map((comment, index) => (
+                <div key={index} className="flex space-x-2 mb-2">
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage
+                      src={comment.user.avatar}
+                      alt={comment.user.name}
+                    />
+                    <AvatarFallback>
+                      {comment.user.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 bg-muted rounded-md p-2">
+                    <p className="text-sm font-semibold">{comment.user.name}</p>
+                    <p className="text-sm">{comment.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </ScrollArea>
       </CardContent>
       <CardFooter className="flex items-end space-x-2">
